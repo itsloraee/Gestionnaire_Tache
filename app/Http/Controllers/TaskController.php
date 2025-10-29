@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
+use App\Models\Tasks;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class TaskController extends Controller
 {
@@ -12,7 +15,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Tasks::where(Auth::user()->id)->get();
+            return view ('index' , compact('tasks'));
     }
 
     /**
@@ -34,7 +38,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +46,7 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Task $task)
+    public function edit(string $id)
     {
         //
     }
@@ -50,16 +54,25 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, string $id)
     {
-        //
+         // Changer l'état d'une tâche
+       // $task->update(['state'=>1]);
+        
+         // redirection après modification
+        return redirect ()->route('task.index');        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+     public function destroy(string $id)
     {
-        //
+        // requete pour supprimer la tache 
+        //$task->delete();
+    
+
+        // redirection après suppression
+        //return redirect ()->route('task.index');
     }
 }
